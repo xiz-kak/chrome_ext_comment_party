@@ -1,14 +1,24 @@
 {
-  "name": "Getting Started Example",
-  "description": "Build an Extension!",
+  "name": "Comment streamer",
+  "description": "Stream comments",
   "version": "1.0",
-  "manifest_version": 3,
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' https://stats.pusher.com; object-src 'self'",
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+      "js/pusher.min.js",
+      "src/background.js"
+    ],
+    "persistent": true
   },
-  "permissions": ["storage", "activeTab", "scripting"],
-  "action": {
-    "default_popup": "popup.html",
+  "permissions": [
+      "tabs",
+      "background",
+      "http://*/*",
+      "https://*/*"
+  ],
+  "browser_action": {
+    "default_popup": "src/popup.html",
     "default_icon": {
       "16": "/images/get_started16.png",
       "32": "/images/get_started32.png",
@@ -24,7 +34,6 @@
   },
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*" ],
-      "js": ["anime.min.js"]
-  }],
-  "options_page": "options.html"
+      "js": ["js/anime.min.js", "src/contentScript.js"]
+  }]
 }
