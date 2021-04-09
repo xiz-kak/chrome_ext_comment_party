@@ -13,10 +13,11 @@ btnComment.addEventListener("click", async () => {
 
 let btnCon= document.getElementById("connect");
 btnCon.addEventListener("click", async () => {
+  const tfChannelName = document.getElementById("channelName");
   const data = {
     to: "background",
     action: "pusherConnect",
-    value: "my-channel"
+    value: tfChannelName.value
   };
   chrome.runtime.sendMessage(data, function(response) {});
 });
@@ -30,3 +31,4 @@ btnDiscon.addEventListener("click", async () => {
   };
   chrome.runtime.sendMessage(data, function(response) {});
 });
+
