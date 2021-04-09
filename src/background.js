@@ -1,3 +1,7 @@
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.browserAction.setBadgeText({text: "!"});
+});
+
 let pusher;
 
 const PUSHER_EVENT_NAME = 'comment_post';
@@ -10,10 +14,11 @@ chrome.runtime.onMessage.addListener(
     console.log(request);
     if (request.to == "background") {
       if (request.action == "pusherConnect") {
-          setupPusher(request.value);
+        setupPusher(request.value);
       } else if (request.action == "pusherDisconnect") {
         if (pusher) { pusher.disconnect(); }
         pusher = undefined;
+        chrome.browserAction.setBadgeText({text: "!"});
       }
     }
   }
@@ -23,10 +28,12 @@ Pusher.logToConsole = true;
 
 function setupPusher(channelName) {
   if (pusher) { pusher.disconnect(); }
+  chrome.browserAction.setBadgeText({text: "!"});
 
   pusher = new Pusher(PUSHER_APP_PUB_KEY, {
     cluster: PUSHER_CLUSTER
   });
+  chrome.browserAction.setBadgeText({text: ""});
 
   let channel = pusher.subscribe(channelName);  // 'my-channel'
   channel.bind(PUSHER_EVENT_NAME, function(event) {
