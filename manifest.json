@@ -1,6 +1,6 @@
 {
-  "name": "Comment streamer",
-  "description": "Stream comments",
+  "name": "Comment party",
+  "description": "Let's party",
   "version": "1.0",
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' https://stats.pusher.com; object-src 'self'",
