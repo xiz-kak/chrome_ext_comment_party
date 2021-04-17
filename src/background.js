@@ -1,6 +1,3 @@
-// TODO: change default icon
-// TODO: add green/red light badge to icon
-
 chrome.runtime.onInstalled.addListener(function() {
   chrome.browserAction.setBadgeText({text: "!"});
 });
@@ -38,7 +35,7 @@ function setupPusher(channelName) {
   });
   chrome.browserAction.setBadgeText({text: ""});
 
-  let channel = pusher.subscribe(channelName);  // 'my-channel'
+  let channel = pusher.subscribe(channelName);
   channel.bind(PUSHER_EVENT_NAME, function(event) {
     const data = {
       to: "contentScript",

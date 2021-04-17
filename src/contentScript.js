@@ -4,9 +4,6 @@ chrome.runtime.onMessage.addListener(
     console.log(request);
     if (request.to == "contentScript") {
       if (request.action == "messageSent") {
-        // TODO: random top (0~height);
-        // TODO: calculated translateX
-        // TODO: random duration (speed)
         let div = document.createElement("div");
         div.innerHTML= request.value;
         div.classList.add("commentText");
