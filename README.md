@@ -1,1 +1,1 @@
-# chrome_ext_tutorial
+# Comment Party Chrome extension
