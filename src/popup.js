@@ -10,7 +10,7 @@ btnComment.addEventListener("click", async () => {
   });
 });
 
-
+// TODO: checksum at the channelName value
 let btnCon= document.getElementById("connect");
 btnCon.addEventListener("click", async () => {
   const tfChannelName = document.getElementById("channelName");

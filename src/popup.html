@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- <link rel="stylesheet" href="button.css"> -->
-    <script src="../js/anime.min.js"></script>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="button.css">
   </head>
   <body>
-    <button id="comment">Comment</button>
-    <input id="channelName" type="text" value="my-channel" />
-    <button id="connect">Con</button>
-    <button id="disconnect">Discon</button>
+    <div class="container">
+      <div class="logo-container">
+        <div class="logo-wrapper">
+          <img src="../images/logo_mark_word_t.png" class="">
+        </div>
+      </div>
+      <div class="items-container">
+        <div class="item-wrapper">
+          <input id="partyId" class="item-center" type="text" placeholder="PARTY ID" />
+        </div>
+        <div class="item-wrapper item-center">
+          <button id="start" class="btn btn-outline-warning">START!!</button>
+          <button id="end" class="btn btn-outline-dark">END</button>
+        </div>
+      </div>
+      <hr/>
+      <div class="items-container">
+        <div class="item-wrapper">
+          <p>For debug:</p>
+          <button id="connect">Con</button>
+          <button id="disconnect">Discon</button>
+          <button id="comment">Comment</button>
+        </div>
+      </div>
+    </div>
     <script src="popup.js" charset="utf-8"></script>
   </body>
 </html>

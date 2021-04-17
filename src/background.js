@@ -1,3 +1,6 @@
+// TODO: change default icon
+// TODO: add green/red light badge to icon
+
 chrome.runtime.onInstalled.addListener(function() {
   chrome.browserAction.setBadgeText({text: "!"});
 });
