@@ -1,5 +1,6 @@
 chrome.runtime.onInstalled.addListener(function() {
   chrome.browserAction.setBadgeText({text: "!"});
+  chrome.browserAction.setBadgeBackgroundColor({color: "#DB4437"});
 });
 
 let pusher;
@@ -19,6 +20,7 @@ chrome.runtime.onMessage.addListener(
         if (pusher) { pusher.disconnect(); }
         pusher = undefined;
         chrome.browserAction.setBadgeText({text: "!"});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#DB4437"});
       }
     }
   }
@@ -29,6 +31,7 @@ Pusher.logToConsole = true;
 function setupPusher(channelName) {
   if (pusher) { pusher.disconnect(); }
   chrome.browserAction.setBadgeText({text: "!"});
+  chrome.browserAction.setBadgeBackgroundColor({color: "#DB4437"});
 
   pusher = new Pusher(PUSHER_APP_PUB_KEY, {
     cluster: PUSHER_CLUSTER
