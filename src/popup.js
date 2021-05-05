@@ -10,15 +10,22 @@ window.onload = function(){
 let btnStart= document.getElementById("start");
 btnStart.addEventListener("click", async () => {
   const inputPartyId = document.getElementById("partyId");
+  const partyId = inputPartyId.value;
+
+  if (!validatePartyId(partyId)) {
+    alert("Invalid PARTY ID!!");
+    return;
+  }
+
   const data = {
     to: "background",
     action: "pusherConnect",
-    value: inputPartyId.value
+    value: partyId
   };
   chrome.runtime.sendMessage(data, function(response) {
     console.log(response);
-    chrome.storage.local.set({ listening: true, partyId: inputPartyId.value }, function() {
-      console.log('Listening started: PARTY ID:' + inputPartyId.value);
+    chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
+      console.log('Listening started: PARTY ID:' + partyId);
     });
   });
 });
@@ -71,3 +78,9 @@ btnDiscon.addEventListener("click", async () => {
   chrome.runtime.sendMessage(data, function(response) {});
 });
 
+function validatePartyId(partyId) {
+  if (partyId.length != 15) { return false };
+
+  const cd = (parseInt(partyId.slice(0, 1), 36) + 1).toString(36).slice(-1).toUpperCase();
+  return partyId.slice(-1) == cd;
+}
