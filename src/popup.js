@@ -1,7 +1,8 @@
+const inputPartyId = document.getElementById("partyId");
+
 window.onload = function(){
   chrome.storage.local.get(['listening', 'partyId'], function(res) {
     if (res.listening) {
-      const inputPartyId = document.getElementById("partyId");
       inputPartyId.value = res.partyId;
     }
   });
@@ -9,7 +10,6 @@ window.onload = function(){
 
 let btnStart= document.getElementById("start");
 btnStart.addEventListener("click", async () => {
-  const inputPartyId = document.getElementById("partyId");
   const partyId = inputPartyId.value;
 
   if (!validatePartyId(partyId)) {
