@@ -1,14 +1,22 @@
 const inputPartyId = document.getElementById("partyId");
+const btnStart= document.getElementById("start");
+const btnEnd = document.getElementById("end");
 
 window.onload = function(){
   chrome.storage.local.get(['listening', 'partyId'], function(res) {
     if (res.listening) {
       inputPartyId.value = res.partyId;
+      inputPartyId.disabled = true;
+      btnStart.classList.add("hide");
+      btnEnd.classList.remove("hide");
+    } else {
+      inputPartyId.disabled = false;
+      btnStart.classList.remove("hide");
+      btnEnd.classList.add("hide");
     }
   });
 }
 
-let btnStart= document.getElementById("start");
 btnStart.addEventListener("click", async () => {
   const partyId = inputPartyId.value;
 
@@ -27,10 +35,12 @@ btnStart.addEventListener("click", async () => {
     chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
       console.log('Listening started: PARTY ID:' + partyId);
     });
+    inputPartyId.disabled = true;
+    btnStart.classList.add("hide");
+    btnEnd.classList.remove("hide");
   });
 });
 
-let btnEnd = document.getElementById("end");
 btnEnd.addEventListener("click", async () => {
   const data = {
     to: "background",
@@ -42,6 +52,9 @@ btnEnd.addEventListener("click", async () => {
     chrome.storage.local.set({ listening: false, partyId: null }, function() {
       console.log('Listening end');
     });
+    inputPartyId.disabled = false;
+    btnStart.classList.remove("hide");
+    btnEnd.classList.add("hide");
   });
 });
 

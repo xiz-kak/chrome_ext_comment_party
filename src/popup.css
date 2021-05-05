@@ -35,14 +35,26 @@ input::placeholder {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
   background-clip: padding-box;
   border: 1px solid dimgray;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   box-sizing: border-box
 }
 
+.item-wrapper > input:not(:disabled):not(.disabled) {
+  background-color: #fff;
+  color: #495057;
+}
+
 .item-center {
   text-align: center;
+}
+
+input:disabled {
+  border-color: rgba(118, 118, 118, 0.3);
+  color: darkgray;
+}
+
+.hide {
+  display: none;
 }
