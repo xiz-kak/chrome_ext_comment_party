@@ -43,7 +43,7 @@ function setupPusher(channelName) {
     const data = {
       to: "contentScript",
       action: "messageSent",
-      value: event.message
+      value: event.text
     };
     console.log(data);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
