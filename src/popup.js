@@ -1,62 +1,100 @@
 const inputPartyId = document.getElementById("partyId");
-const btnStart= document.getElementById("start");
-const btnEnd = document.getElementById("end");
 
 window.onload = function(){
   chrome.storage.local.get(['listening', 'partyId'], function(res) {
     if (res.listening) {
-      inputPartyId.value = res.partyId;
-      inputPartyId.disabled = true;
-      btnStart.classList.add("hide");
-      btnEnd.classList.remove("hide");
+      $('#partyId').val(res.partyId);
+      $('#partyId').prop("disabled", true);
+      $('#switch').text('CLOSE PARTY');
+      $('#switch').addClass('in-party');
+      $('.container').addClass('color-bg-start').addClass('bg-animate-color');
     } else {
-      inputPartyId.disabled = false;
-      btnStart.classList.remove("hide");
-      btnEnd.classList.add("hide");
+      $('#partyId').prop("disabled", false);
     }
   });
 }
 
-btnStart.addEventListener("click", async () => {
-  const partyId = inputPartyId.value;
+function validatePartyId(partyId) {
+  if (partyId.length != 15) { return false };
 
+  const cd = (parseInt(partyId.slice(0, 1), 36) + 1).toString(36).slice(-1).toUpperCase();
+  return partyId.slice(-1) == cd;
+}
+
+$('#switch').on('click', async (event) => {
+  if ($('#switch').hasClass('in-party')) {
+    this.closeParty();
+    $('#partyId').prop("disabled", false);
+    $('#switch').text('START!!');
+  } else {
+    const started = await startParty($('#partyId').val());
+    if (!started) { return };
+
+    $('#partyId').prop("disabled", true);
+    $('#switch').text('CLOSE PARTY');
+  }
+
+  $('#switch').toggleClass('in-party');
+
+  var $page = $('.container');
+  $page.toggleClass('color-bg-start')
+    .toggleClass('bg-animate-color');
+});
+
+async function startParty(partyId) {
   if (!validatePartyId(partyId)) {
     alert("Invalid PARTY ID!!");
     return;
   }
 
-  const data = {
-    to: "background",
-    action: "pusherConnect",
-    value: partyId
-  };
-  chrome.runtime.sendMessage(data, function(response) {
-    console.log(response);
-    chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
-      console.log('Listening started: PARTY ID:' + partyId);
-    });
-    inputPartyId.disabled = true;
-    btnStart.classList.add("hide");
-    btnEnd.classList.remove("hide");
-  });
-});
+  return await listen(partyId);
 
-btnEnd.addEventListener("click", async () => {
+  // const data = {
+  //   to: "background",
+  //   action: "pusherConnect",
+  //   value: partyId
+  // };
+
+  // chrome.runtime.sendMessage(data, function(response) {
+  //   console.log(response);
+  //   chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
+  //     console.log('Listening started: PARTY ID:' + partyId);
+  //   });
+  // });
+}
+
+function closeParty() {
   const data = {
     to: "background",
     action: "pusherDisconnect",
     value: ""
-  }
+  };
+
   chrome.runtime.sendMessage(data, function(response) {
     console.log(response);
     chrome.storage.local.set({ listening: false, partyId: null }, function() {
       console.log('Listening end');
     });
-    inputPartyId.disabled = false;
-    btnStart.classList.remove("hide");
-    btnEnd.classList.add("hide");
   });
-});
+}
+
+function listen(partyId) {
+  const data = {
+    to: "background",
+    action: "pusherConnect",
+    value: partyId
+  };
+
+  return new Promise(function (resolve) {
+    chrome.runtime.sendMessage(data, function(response) {
+      console.log(response);
+      chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
+        console.log('Listening started: PARTY ID:' + partyId);
+        resolve(true);
+      });
+    });
+  });
+};
 
 let btnComment = document.getElementById("comment");
 btnComment.addEventListener("click", async () => {
@@ -70,30 +108,3 @@ btnComment.addEventListener("click", async () => {
   });
 });
 
-let btnCon= document.getElementById("connect");
-btnCon.addEventListener("click", async () => {
-  const tfChannelName = document.getElementById("partyId");
-  const data = {
-    to: "background",
-    action: "pusherConnect",
-    value: tfChannelName.value
-  };
-  chrome.runtime.sendMessage(data, function(response) {});
-});
-
-let btnDiscon = document.getElementById("disconnect");
-btnDiscon.addEventListener("click", async () => {
-  const data = {
-    to: "background",
-    action: "pusherDisconnect",
-    value: ""
-  };
-  chrome.runtime.sendMessage(data, function(response) {});
-});
-
-function validatePartyId(partyId) {
-  if (partyId.length != 15) { return false };
-
-  const cd = (parseInt(partyId.slice(0, 1), 36) + 1).toString(36).slice(-1).toUpperCase();
-  return partyId.slice(-1) == cd;
-}
