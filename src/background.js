@@ -1,9 +1,6 @@
 chrome.runtime.onInstalled.addListener(function() {
-  chrome.storage.local.get(['listening', 'partyId'], function(res) {
-    if (!res.listening) {
-      chrome.browserAction.setBadgeText({text: "!"});
-    }
-  });
+  chrome.storage.local.set({ listening: false, partyId: null }, function() {});
+  chrome.browserAction.setBadgeText({text: "!"});
   chrome.browserAction.setBadgeBackgroundColor({color: "#DB4437"});
 });
 
