@@ -7,21 +7,26 @@ body {
 }
 
 .logo-container {
+  padding: 1rem;
   border-bottom: 0.1rem solid lightgray;
 }
 
 .logo-wrapper {
   width: 80%;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
 }
 
 .logo-wrapper > img {
   width: 100%
 }
 
+.items-container {
+  padding: 1rem;
+}
+
 .item-wrapper {
   width: 80%;
-  margin: 2rem auto;
+  margin: 1rem auto;
 }
 
 input::placeholder {
