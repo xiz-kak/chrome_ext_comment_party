@@ -48,19 +48,6 @@ async function startParty(partyId) {
   }
 
   return await listen(partyId);
-
-  // const data = {
-  //   to: "background",
-  //   action: "pusherConnect",
-  //   value: partyId
-  // };
-
-  // chrome.runtime.sendMessage(data, function(response) {
-  //   console.log(response);
-  //   chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
-  //     console.log('Listening started: PARTY ID:' + partyId);
-  //   });
-  // });
 }
 
 function closeParty() {
