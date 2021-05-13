@@ -10,6 +10,7 @@ window.onload = function(){
       $('.container').addClass('color-bg-start').addClass('bg-animate-color');
     } else {
       $('#partyId').prop("disabled", false);
+      $('#partyId').focus();
     }
   });
 }
