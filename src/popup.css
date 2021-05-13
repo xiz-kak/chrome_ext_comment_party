@@ -60,6 +60,10 @@ input:disabled {
   color: darkgray;
 }
 
+.hide {
+  display: none;
+}
+
 .color-bg-start {
   background-color: salmon;
 }

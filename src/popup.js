@@ -12,6 +12,11 @@ window.onload = function(){
       $('#partyId').prop("disabled", false);
       $('#partyId').focus();
     }
+    chrome.management.getSelf((me) => {
+      if (me.installType === "development") {
+        $('.debug').removeClass('hide');
+      }
+    })
   });
 }
 
