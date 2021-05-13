@@ -50,8 +50,7 @@ function setupPusher(channelName) {
     console.log(data);
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       console.log(tabs);
-      if (tabs && tabs.length > 0) {
-        console.log(tabs[0]);
+      if (tabs && tabs.length > 0 && tabs[0].url.match(/^https?:\/\/.+/)) {
         chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
       }
     });
