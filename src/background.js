@@ -9,6 +9,7 @@ let pusher;
 const PUSHER_EVENT_NAME = 'comment_post';
 const PUSHER_CLUSTER = 'ap3';
 const PUSHER_APP_PUB_KEY = '2b06d2ff54348e48daf7';
+const PUSHER_AUTH_URL = 'https://comment-party-pusher-auth.herokuapp.com/pusher/auth';
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
@@ -33,11 +34,12 @@ function setupPusher(channelName) {
   chrome.browserAction.setBadgeText({text: "!"});
 
   pusher = new Pusher(PUSHER_APP_PUB_KEY, {
-    cluster: PUSHER_CLUSTER
+    cluster: PUSHER_CLUSTER,
+    authEndpoint: PUSHER_AUTH_URL
   });
   chrome.browserAction.setBadgeText({text: ""});
 
-  let channel = pusher.subscribe(channelName);
+  let channel = pusher.subscribe('private-' + channelName);
   channel.bind(PUSHER_EVENT_NAME, function(event) {
     const data = {
       to: "contentScript",
