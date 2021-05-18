@@ -8,7 +8,8 @@ let pusher;
 
 const PUSHER_EVENT_NAME = 'comment_post';
 const PUSHER_CLUSTER = 'ap3';
-const PUSHER_APP_PUB_KEY = '2b06d2ff54348e48daf7';
+// const PUSHER_APP_PUB_KEY = '2b06d2ff54348e48daf7'; // DEV
+const PUSHER_APP_PUB_KEY = '58267dad34bdd51e031e'; // PRD
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
