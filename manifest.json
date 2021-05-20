@@ -7,6 +7,7 @@
   "background": {
     "scripts": [
       "js/pusher.min.js",
+      "js/rotate_icon.js",
       "src/background.js"
     ],
     "persistent": true

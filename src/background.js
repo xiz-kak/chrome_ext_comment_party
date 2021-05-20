@@ -1,7 +1,7 @@
+const iconControl = new RotateIcon('../images/icon_solo_32.png');
+
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.local.set({ listening: false, partyId: null }, function() {});
-  chrome.browserAction.setBadgeText({text: "!"});
-  chrome.browserAction.setBadgeBackgroundColor({color: "#DB4437"});
 });
 
 let pusher;
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(
       } else if (request.action == "pusherDisconnect") {
         if (pusher) { pusher.disconnect(); }
         pusher = undefined;
-        chrome.browserAction.setBadgeText({text: "!"});
+        iconControl.reset();
       }
     }
   }
@@ -31,12 +31,12 @@ Pusher.logToConsole = true;
 
 function setupPusher(channelName) {
   if (pusher) { pusher.disconnect(); }
-  chrome.browserAction.setBadgeText({text: "!"});
+  iconControl.reset();
 
   pusher = new Pusher(PUSHER_APP_PUB_KEY, {
     cluster: PUSHER_CLUSTER
   });
-  chrome.browserAction.setBadgeText({text: ""});
+  iconControl.rotate();
 
   let channel = pusher.subscribe(channelName);
   channel.bind(PUSHER_EVENT_NAME, function(event) {
