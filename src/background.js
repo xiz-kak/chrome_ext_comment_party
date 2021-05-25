@@ -15,10 +15,10 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     sendResponse(true);
     console.log(request);
-    if (request.to == "background") {
-      if (request.action == "pusherConnect") {
+    if (request.to == 'background') {
+      if (request.action == 'pusherConnect') {
         setupPusher(request.value);
-      } else if (request.action == "pusherDisconnect") {
+      } else if (request.action == 'pusherDisconnect') {
         if (pusher) { pusher.disconnect(); }
         pusher = undefined;
         iconControl.reset();
@@ -42,8 +42,8 @@ async function setupPusher(config) {
   let channel = pusher.subscribe(config.partyId);
   channel.bind(PUSHER_EVENT_NAME, function(event) {
     const data = {
-      to: "contentScript",
-      action: "messageSent",
+      to: 'contentScript',
+      action: 'messageSent',
       value: event.text
     };
     console.log(data);

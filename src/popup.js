@@ -2,18 +2,18 @@ window.onload = function(){
   chrome.storage.local.get(['listening', 'partyId', 'devPusher'], function(res) {
     if (res.listening) {
       $('#partyId').val(res.partyId);
-      $('#partyId').prop("disabled", true);
+      $('#partyId').prop('disabled', true);
       $('#switch').text('CLOSE PARTY');
       $('#switch').addClass('in-party');
       $('.container').addClass('color-bg-start').addClass('bg-animate-color');
       $('#cbDevPusher').prop('disabled', true);
     } else {
-      $('#partyId').prop("disabled", false);
+      $('#partyId').prop('disabled', false);
       $('#partyId').focus();
     }
     $('#cbDevPusher').prop('checked', res.devPusher);
     chrome.management.getSelf((me) => {
-      if (me.installType === "development") {
+      if (me.installType === 'development') {
         $('.debug').removeClass('hide');
       }
     })
@@ -30,14 +30,14 @@ function validatePartyId(partyId) {
 $('#switch').on('click', async (event) => {
   if ($('#switch').hasClass('in-party')) {
     this.closeParty();
-    $('#partyId').prop("disabled", false);
+    $('#partyId').prop('disabled', false);
     $('#switch').text('START!!');
     $('#cbDevPusher').prop('disabled', false);
   } else {
     const started = await startParty($('#partyId').val());
     if (!started) { return };
 
-    $('#partyId').prop("disabled", true);
+    $('#partyId').prop('disabled', true);
     $('#switch').text('CLOSE PARTY');
     $('#cbDevPusher').prop('disabled', true);
   }
@@ -51,7 +51,7 @@ $('#switch').on('click', async (event) => {
 
 async function startParty(partyId) {
   if (!validatePartyId(partyId)) {
-    alert("Invalid PARTY ID!!");
+    alert('Invalid PARTY ID!!');
     return;
   }
 
@@ -60,9 +60,9 @@ async function startParty(partyId) {
 
 function closeParty() {
   const data = {
-    to: "background",
-    action: "pusherDisconnect",
-    value: ""
+    to: 'background',
+    action: 'pusherDisconnect',
+    value: ''
   };
 
   chrome.runtime.sendMessage(data, function(response) {
@@ -75,8 +75,8 @@ function closeParty() {
 
 function listen(partyId) {
   const data = {
-    to: "background",
-    action: "pusherConnect",
+    to: 'background',
+    action: 'pusherConnect',
     value: { partyId: partyId, devPusher: $('#cbDevPusher').prop('checked') }
   };
 
@@ -91,12 +91,12 @@ function listen(partyId) {
   });
 };
 
-let btnComment = document.getElementById("comment");
-btnComment.addEventListener("click", async () => {
+let btnComment = document.getElementById('comment');
+btnComment.addEventListener('click', async () => {
   const data = {
-    to: "contentScript",
-    action: "messageSent",
-    value: "dehedehedehedehedeheharo~"
+    to: 'contentScript',
+    action: 'messageSent',
+    value: 'dehedehedehedehedeheharo~'
   };
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
