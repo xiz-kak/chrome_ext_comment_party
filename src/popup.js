@@ -1,17 +1,17 @@
-const inputPartyId = document.getElementById("partyId");
-
 window.onload = function(){
-  chrome.storage.local.get(['listening', 'partyId'], function(res) {
+  chrome.storage.local.get(['listening', 'partyId', 'devPusher'], function(res) {
     if (res.listening) {
       $('#partyId').val(res.partyId);
       $('#partyId').prop("disabled", true);
       $('#switch').text('CLOSE PARTY');
       $('#switch').addClass('in-party');
       $('.container').addClass('color-bg-start').addClass('bg-animate-color');
+      $('#cbDevPusher').prop('disabled', true);
     } else {
       $('#partyId').prop("disabled", false);
       $('#partyId').focus();
     }
+    $('#cbDevPusher').prop('checked', res.devPusher);
     chrome.management.getSelf((me) => {
       if (me.installType === "development") {
         $('.debug').removeClass('hide');
@@ -32,12 +32,14 @@ $('#switch').on('click', async (event) => {
     this.closeParty();
     $('#partyId').prop("disabled", false);
     $('#switch').text('START!!');
+    $('#cbDevPusher').prop('disabled', false);
   } else {
     const started = await startParty($('#partyId').val());
     if (!started) { return };
 
     $('#partyId').prop("disabled", true);
     $('#switch').text('CLOSE PARTY');
+    $('#cbDevPusher').prop('disabled', true);
   }
 
   $('#switch').toggleClass('in-party');
@@ -75,7 +77,7 @@ function listen(partyId) {
   const data = {
     to: "background",
     action: "pusherConnect",
-    value: partyId
+    value: { partyId: partyId, devPusher: $('#cbDevPusher').prop('checked') }
   };
 
   return new Promise(function (resolve) {
@@ -101,3 +103,6 @@ btnComment.addEventListener("click", async () => {
   });
 });
 
+$('#cbDevPusher').on('change', () => {
+  chrome.storage.local.set({ devPusher: $('#cbDevPusher').prop('checked') }, () => {});
+});
