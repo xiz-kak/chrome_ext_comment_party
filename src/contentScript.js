@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener(
         div.style.fontSize = "-webkit-xxx-large";
         div.style.fontWeight = "500";
         div.style.textShadow = "0 0 3px #fff";
-        div.style.zIndex = "99";
+        div.style.zIndex = "9999999";
         document.body.appendChild(div);
 
         const textW = div.clientWidth;
