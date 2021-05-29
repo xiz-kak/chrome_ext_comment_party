@@ -96,7 +96,7 @@ btnComment.addEventListener('click', async () => {
   const data = {
     to: 'contentScript',
     action: 'messageSent',
-    value: 'dehedehedehedehedeheharo~'
+    value: '&#x1F601;&#x1F481;&#x200D;&#x2640;&#xFE0F;<img class="emoji" style="max-height: 60px;" src="https://emoji.slack-edge.com/TCGD1EQ93/squirrel/465f40c0e0.png">あいうdehedehedehedehあいうedeheharo~'
   };
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
