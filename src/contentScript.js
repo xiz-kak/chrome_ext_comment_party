@@ -1,3 +1,5 @@
+const REGEX_G_PRESEN = /https:\/\/docs.google.com\/presentation\/\S+/;
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     sendResponse(true);
@@ -16,7 +18,11 @@ chrome.runtime.onMessage.addListener(
         div.style.fontWeight = '500';
         div.style.textShadow = '0 0 3px #fff';
         div.style.zIndex = '9999999';
-        document.body.appendChild(div);
+        if (document.URL.match(REGEX_G_PRESEN) && $('iframe.punch-present-iframe')[0]) {
+          $('iframe.punch-present-iframe').contents().find('body.punch-viewer-body').append(div);
+        } else {
+          document.body.appendChild(div);
+        }
 
         const textW = div.clientWidth;
         div.style.right = `-${ textW }px`;

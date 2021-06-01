@@ -1,7 +1,7 @@
 {
   "name": "Comment party",
   "description": "Let's party",
-  "version": "0.0.1",
+  "version": "0.1",
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' https://stats.pusher.com; object-src 'self'",
   "background": {
@@ -37,6 +37,6 @@
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*" ],
       "css": ["src/contentScript.css"],
-      "js": ["js/anime.min.js", "src/contentScript.js"]
+      "js": ["js/jquery-3.6.0.min.js", "js/anime.min.js", "src/contentScript.js"]
   }]
 }
