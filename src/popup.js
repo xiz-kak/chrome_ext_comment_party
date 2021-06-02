@@ -15,6 +15,9 @@ window.onload = function(){
     chrome.management.getSelf((me) => {
       if (me.installType === 'development') {
         $('.debug').removeClass('hide');
+        $.getJSON('../manifest.json', manifest => {
+          $('#version').text(manifest.version);
+        });
       }
     })
   });
