@@ -1,20 +1,23 @@
-const inputPartyId = document.getElementById("partyId");
-
 window.onload = function(){
-  chrome.storage.local.get(['listening', 'partyId'], function(res) {
+  chrome.storage.local.get(['listening', 'partyId', 'devPusher'], function(res) {
     if (res.listening) {
       $('#partyId').val(res.partyId);
-      $('#partyId').prop("disabled", true);
+      $('#partyId').prop('disabled', true);
       $('#switch').text('CLOSE PARTY');
       $('#switch').addClass('in-party');
       $('.container').addClass('color-bg-start').addClass('bg-animate-color');
+      $('#cbDevPusher').prop('disabled', true);
     } else {
-      $('#partyId').prop("disabled", false);
+      $('#partyId').prop('disabled', false);
       $('#partyId').focus();
     }
+    $('#cbDevPusher').prop('checked', res.devPusher);
     chrome.management.getSelf((me) => {
-      if (me.installType === "development") {
+      if (me.installType === 'development') {
         $('.debug').removeClass('hide');
+        $.getJSON('../manifest.json', manifest => {
+          $('#version').text(manifest.version);
+        });
       }
     })
   });
@@ -30,14 +33,16 @@ function validatePartyId(partyId) {
 $('#switch').on('click', async (event) => {
   if ($('#switch').hasClass('in-party')) {
     this.closeParty();
-    $('#partyId').prop("disabled", false);
+    $('#partyId').prop('disabled', false);
     $('#switch').text('START!!');
+    $('#cbDevPusher').prop('disabled', false);
   } else {
     const started = await startParty($('#partyId').val());
     if (!started) { return };
 
-    $('#partyId').prop("disabled", true);
+    $('#partyId').prop('disabled', true);
     $('#switch').text('CLOSE PARTY');
+    $('#cbDevPusher').prop('disabled', true);
   }
 
   $('#switch').toggleClass('in-party');
@@ -49,7 +54,7 @@ $('#switch').on('click', async (event) => {
 
 async function startParty(partyId) {
   if (!validatePartyId(partyId)) {
-    alert("Invalid PARTY ID!!");
+    alert('Invalid PARTY ID!!');
     return;
   }
 
@@ -58,9 +63,9 @@ async function startParty(partyId) {
 
 function closeParty() {
   const data = {
-    to: "background",
-    action: "pusherDisconnect",
-    value: ""
+    to: 'background',
+    action: 'pusherDisconnect',
+    value: ''
   };
 
   chrome.runtime.sendMessage(data, function(response) {
@@ -73,9 +78,9 @@ function closeParty() {
 
 function listen(partyId) {
   const data = {
-    to: "background",
-    action: "pusherConnect",
-    value: partyId
+    to: 'background',
+    action: 'pusherConnect',
+    value: { partyId: partyId, devPusher: $('#cbDevPusher').prop('checked') }
   };
 
   return new Promise(function (resolve) {
@@ -89,15 +94,18 @@ function listen(partyId) {
   });
 };
 
-let btnComment = document.getElementById("comment");
-btnComment.addEventListener("click", async () => {
+let btnComment = document.getElementById('comment');
+btnComment.addEventListener('click', async () => {
   const data = {
-    to: "contentScript",
-    action: "messageSent",
-    value: "dehedehedehedehedeheharo~"
+    to: 'contentScript',
+    action: 'messageSent',
+    value: '&#x1F601;&#x1F481;&#x200D;&#x2640;&#xFE0F;<img class="emoji" style="max-height: 60px;" src="https://emoji.slack-edge.com/TCGD1EQ93/squirrel/465f40c0e0.png">あいうdehedehedehedehあいうedeheharo~'
   };
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, data, function(response) {});
   });
 });
 
+$('#cbDevPusher').on('change', () => {
+  chrome.storage.local.set({ devPusher: $('#cbDevPusher').prop('checked') }, () => {});
+});

@@ -1,12 +1,13 @@
 {
   "name": "Comment party",
   "description": "Let's party",
-  "version": "1.0",
+  "version": "0.1",
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' https://stats.pusher.com; object-src 'self'",
   "background": {
     "scripts": [
       "js/pusher.min.js",
+      "js/rotate_icon.js",
       "src/background.js"
     ],
     "persistent": true
@@ -35,6 +36,7 @@
   },
   "content_scripts": [{
       "matches": ["http://*/*", "https://*/*" ],
-      "js": ["js/anime.min.js", "src/contentScript.js"]
+      "css": ["src/contentScript.css"],
+      "js": ["js/jquery-3.6.0.min.js", "js/anime.min.js", "src/contentScript.js"]
   }]
 }

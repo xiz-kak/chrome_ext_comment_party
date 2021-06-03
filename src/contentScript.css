@@ -1,0 +1,5 @@
+.commentText > img.emoji {
+  max-height: 60px;
+  vertical-align: middle;
+  padding-bottom: 12px;
+}
