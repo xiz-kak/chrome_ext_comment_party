@@ -36,12 +36,12 @@ async function setupPusher(config) {
 
   const pubKey = config.devPusher ? PUSHER_APP_PUB_KEY_DEV : PUSHER_APP_PUB_KEY_PRD;
   pusher = new Pusher(pubKey, {
-    cluster: PUSHER_CLUSTER
+    cluster: PUSHER_CLUSTER,
     authEndpoint: PUSHER_AUTH_URL
   });
   iconControl.rotate();
 
-  let channel = pusher.subscribe('private-' + channelName);
+  let channel = pusher.subscribe('private-' + config.partyId);
   channel.bind(PUSHER_EVENT_NAME, function(event) {
     const data = {
       to: 'contentScript',
