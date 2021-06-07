@@ -1,5 +1,5 @@
 window.onload = function(){
-  chrome.storage.local.get(['listening', 'partyId', 'devPusher'], function(res) {
+  chrome.storage.local.get(['listening', 'partyId', 'devPusher', 'serverBaseUrl'], function(res) {
     if (res.listening) {
       $('#partyId').val(res.partyId);
       $('#partyId').prop('disabled', true);
@@ -12,6 +12,7 @@ window.onload = function(){
       $('#partyId').focus();
     }
     $('#cbDevPusher').prop('checked', res.devPusher);
+    $('#serverBaseUrl').val(res.serverBaseUrl);
     chrome.management.getSelf((me) => {
       if (me.installType === 'development') {
         $('.debug').removeClass('hide');
@@ -80,7 +81,11 @@ function listen(partyId) {
   const data = {
     to: 'background',
     action: 'pusherConnect',
-    value: { partyId: partyId, devPusher: $('#cbDevPusher').prop('checked') }
+    value: {
+      partyId: partyId,
+      devPusher: $('#cbDevPusher').prop('checked'),
+      serverBaseUrl: $('#serverBaseUrl').val()
+    }
   };
 
   return new Promise(function (resolve) {
@@ -108,4 +113,8 @@ btnComment.addEventListener('click', async () => {
 
 $('#cbDevPusher').on('change', () => {
   chrome.storage.local.set({ devPusher: $('#cbDevPusher').prop('checked') }, () => {});
+});
+
+$('#serverBaseUrl').on('change', () => {
+  chrome.storage.local.set({ serverBaseUrl: $('#serverBaseUrl').val() }, () => {});
 });
