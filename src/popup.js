@@ -39,7 +39,10 @@ $('#switch').on('click', async (event) => {
     $('#cbDevPusher').prop('disabled', false);
   } else {
     const started = await startParty($('#partyId').val());
-    if (!started) { return };
+    if (!started) {
+      alert('Fail to auth.');
+      return;
+    };
 
     $('#partyId').prop('disabled', true);
     $('#switch').text('CLOSE PARTY');
@@ -91,10 +94,14 @@ function listen(partyId) {
   return new Promise(function (resolve) {
     chrome.runtime.sendMessage(data, function(response) {
       console.log(response);
-      chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
-        console.log('Listening started: PARTY ID:' + partyId);
-        resolve(true);
-      });
+      if (response) {
+        chrome.storage.local.set({ listening: true, partyId: partyId }, function() {
+          console.log('Listening started: PARTY ID:' + partyId);
+          resolve(true);
+        });
+      } else {
+        resolve(false);
+      }
     });
   });
 };
