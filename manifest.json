@@ -6,7 +6,7 @@
   "content_security_policy": "script-src 'self' https://stats.pusher.com; object-src 'self'",
   "background": {
     "scripts": [
-      "js/pusher.min.js",
+      "js/pusher-with-encryption.min.js",
       "js/rotate_icon.js",
       "src/background.js"
     ],
