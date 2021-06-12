@@ -27,7 +27,9 @@ window.onload = function(){
 function validatePartyId(partyId) {
   if (partyId.length != 15) { return false };
 
-  const cd = (parseInt(partyId.slice(0, 1), 36) + 1).toString(36).slice(-1).toUpperCase();
+  const int1 = parseInt(partyId.slice(0, 1), 36);
+  const int2 = parseInt(partyId.slice(1, 2), 36);
+  const cd = (int1 + int2).toString(36).slice(-1).toUpperCase();
   return partyId.slice(-1) == cd;
 }
 
