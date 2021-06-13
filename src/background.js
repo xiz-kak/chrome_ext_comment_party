@@ -47,6 +47,11 @@ async function setupPusher(config, sendResponse) {
     authEndpoint: `${ baseUrl }/pusher/auth`
   });
 
+  pusher.connection.bind('error', function (error) {
+    console.error('Connection error: ', error);
+    alert('Comment Party faces an unexpected error...');
+  });
+
   let channel = pusher.subscribe('private-encrypted-' + config.partyId);
   channel.bind(PUSHER_EVENT_NAME, function(event) {
     const data = {
