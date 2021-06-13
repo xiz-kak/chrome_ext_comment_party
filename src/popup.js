@@ -11,16 +11,11 @@ window.onload = function(){
       $('#partyId').prop('disabled', false);
       $('#partyId').focus();
     }
+    $.getJSON('../manifest.json', manifest => {
+      $('#version').text(manifest.version);
+    });
     $('#cbDevPusher').prop('checked', res.devPusher);
     $('#serverBaseUrl').val(res.serverBaseUrl);
-    chrome.management.getSelf((me) => {
-      if (me.installType === 'development') {
-        $('.debug').removeClass('hide');
-        $.getJSON('../manifest.json', manifest => {
-          $('#version').text(manifest.version);
-        });
-      }
-    })
   });
 }
 
@@ -106,6 +101,14 @@ function listen(partyId) {
     });
   });
 };
+
+chrome.management.getSelf((me) => {
+  if (me.installType === 'development') {
+    $('#logo').on('click', async (event) => {
+      $('.debug').toggleClass('hide');
+    });
+  }
+})
 
 let btnComment = document.getElementById('comment');
 btnComment.addEventListener('click', async () => {
