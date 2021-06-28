@@ -15,6 +15,7 @@ window.onload = () => {
 }
 
 $('#switch').on('click', async (event) => {
+  $('#alertMessage').text('');
   if ($('#switch').hasClass('in-party')) {
     closeParty();
     dispCloseParty();
@@ -27,7 +28,6 @@ $('#switch').on('click', async (event) => {
       dispParty();
     } else {
       dispCloseParty();
-      alert('Fail to auth.');
     };
   }
 });
@@ -64,7 +64,7 @@ const dispLoading = () => {
 
 const startParty = async (partyId) =>  {
   if (!validatePartyId(partyId)) {
-    alert('Invalid PARTY ID!!');
+    $('#alertMessage').text('Invalid PARTY ID!!');
     return;
   }
 
@@ -99,6 +99,7 @@ const listen = (partyId) => {
           resolve(true);
         });
       } else {
+        $('#alertMessage').text('Fail to auth.');
         resolve(false);
       }
     });

@@ -51,6 +51,16 @@ input::placeholder {
   color: #495057;
 }
 
+.alert-wrapper {
+  height: calc(1.25rem + 2px);
+}
+
+.alert-wrapper > span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #d41717;
+}
+
 .item-center {
   text-align: center;
 }
