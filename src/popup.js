@@ -54,7 +54,7 @@ const dispCloseParty = () => {
 
 const dispLoading = () => {
   $('#partyId').prop('disabled', true);
-  $('#switch').text('STARTING...');
+  $('#switch').text('CONNECTING...');
   $('#switch').prop('disabled', true);
   $('#switch').removeClass('in-party');
   $('.container').removeClass('color-bg-start bg-animate-color');
