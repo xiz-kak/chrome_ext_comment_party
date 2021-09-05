@@ -41,7 +41,7 @@ async function setupPusher(config, sendResponse) {
   iconControl.reset();
 
   const pubKey = config.devPusher ? PUSHER_APP_PUB_KEY_DEV : PUSHER_APP_PUB_KEY_PRD;
-  const baseUrl = config.serverBaseUrl ?? SERVER_BASE_URL_PRD
+  const baseUrl = config.devPusher ? config.serverBaseUrl : SERVER_BASE_URL_PRD;
   pusher = new Pusher(pubKey, {
     cluster: PUSHER_CLUSTER,
     authEndpoint: `${ baseUrl }/pusher/auth`
